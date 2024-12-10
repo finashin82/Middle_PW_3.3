@@ -1,4 +1,4 @@
-using Components.Interface;
+using DefaultNamespace.Components.Interfaces;
 using DefaultNameSpace;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,15 +6,44 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class CollisionAbility : MonoBehaviour, IConvertGameObjectToEntity, ICollisionAbility
+public class CollisionAbility : MonoBehaviour, IConvertGameObjectToEntity, IAbility
 {
-    public Collider Collider;
+    public Collider Collider;    
 
-    public List<Collider> Collisions { get; set; }
+    public List<MonoBehaviour> collisionActions = new List<MonoBehaviour>();
+
+    public List<IAbilityTarget> collisionActionsAbilities = new List<IAbilityTarget>();
+
+    [HideInInspector] public List<Collider> collisions;
+
+    private void Start()
+    {
+        foreach (var action in collisionActions) 
+        {
+            if (action is IAbilityTarget ability)
+            {
+                collisionActionsAbilities.Add(ability);
+            }
+            else
+            {
+                Debug.LogError("Collision action must derive from IAbility");
+            }
+        }
+    }
 
     public void Execute()
     {
-        Debug.Log("HIT");
+        foreach (var action in collisionActionsAbilities)
+        {
+            action.Targets = new List<GameObject>();
+
+            collisions.ForEach(c => 
+            { 
+                if (c != null) action.Targets.Add(c.gameObject); 
+            });
+           
+            action.Execute();
+        }
     }
 
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)

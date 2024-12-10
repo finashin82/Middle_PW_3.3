@@ -5,7 +5,6 @@ using Unity.Mathematics;
 using UnityEngine;
 using System;
 using System.Linq;
-using Components.Interface;
 
 namespace DefaultNamespace.System
 {
@@ -14,6 +13,8 @@ namespace DefaultNamespace.System
         private EntityQuery _collisionQuery;
 
         private Collider[] _results = new Collider[50];
+
+        
 
         protected override void OnCreate()
         {
@@ -25,17 +26,13 @@ namespace DefaultNamespace.System
             var dstManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
             Entities.With(_collisionQuery).ForEach(
-                (Entity entity, Transform transform, ref ActorColliderData colliderData) =>
+                (Entity entity, CollisionAbility abilityCollision, ref ActorColliderData colliderData) =>
                 {
-                    var gameObject = transform.gameObject;
+                    var gameObject = abilityCollision.gameObject;
                     float3 position = gameObject.transform.position;
-                    Quaternion rotation = gameObject.transform.rotation;
-
-                    var abilityCollision = gameObject.GetComponent<ICollisionAbility>();
-
-                    if (abilityCollision == null) return;
-
-                    abilityCollision.Collisions?.Clear();
+                    Quaternion rotation = gameObject.transform.rotation;      
+                                        
+                    abilityCollision.collisions?.Clear();
 
                     int size = 0;
 
@@ -69,7 +66,12 @@ namespace DefaultNamespace.System
 
                     if (size > 0)
                     {
-                        abilityCollision.Collisions = _results.ToList();
+                        foreach (var result in _results)
+                        {
+                            abilityCollision?.collisions?.Add(result);
+                        }
+
+                        
                         abilityCollision.Execute();
                     }
                 });

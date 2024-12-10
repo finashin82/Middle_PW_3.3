@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 111032074}
   - component: {fileID: 111032078}
   - component: {fileID: 111032079}
+  - component: {fileID: 111032080}
   m_Layer: 0
   m_Name: Trap
   m_TagString: Untagged
@@ -242,10 +243,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 111032073}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ff864fea014f6441a9a87fe817de7de, type: 3}
+  m_Script: {fileID: 11500000, guid: c80e02fcf7bb95a41a4297758be1af73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collider: {fileID: 111032074}
+  collisionActions:
+  - {fileID: 111032080}
+  collisions: []
+--- !u!114 &111032080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111032073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b09b2c541f318774598e9e0c8d47b0ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 10
 --- !u!1 &116495632
 GameObject:
   m_ObjectHideFlags: 0
@@ -940,7 +957,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -228, y: -94.000015}
+  m_AnchoredPosition: {x: -227.99997, y: -94}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1945195307
