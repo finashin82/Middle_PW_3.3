@@ -13,13 +13,13 @@ public class ShootAbility : MonoBehaviour, IAbility
     public void Execute()
     {
         if (Time.time < _shootTime + shootDelay) return;
-        
+       
         _shootTime = Time.time;
 
         if (bullet != null)
         {
             var t = transform;
-            var newBullet = Instantiate(bullet, t.position, t.rotation);
+            var newBullet = Instantiate(bullet, t.position, t.rotation);                       
         }
         else
         {
